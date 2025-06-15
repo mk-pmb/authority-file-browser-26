@@ -1,0 +1,23 @@
+// -*- coding: utf-8, tab-width: 2 -*-
+
+fetch('/stats/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json' // This is important to specify that we're sending JSON data
+  },
+  body: jsonData
+})
+.then(response => response.json())
+.then(data => console.log('Success:', data)) // Log the result
+.catch(error => console.error('Error:', error)); // Catch any errors
+
+jq.ajax({
+  type: 'POST',
+  url: '/stats/navigator',
+  contentType: 'application/json; charset=utf-8', // Set content type for JSON
+  data: jsonData,
+  successdata) { console.log('Success:', data); },
+  error(xhr, status, error) { console.error('Error:', xhr.responseText); },
+});
+
+

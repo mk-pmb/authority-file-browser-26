@@ -2,7 +2,7 @@
 /* global window */
 
 import plumbing from './namespaces/plumbingNS.mjs';
-import renderBasicLayout from './dom/basicLayout.mjs';
+import renderBaseLayout from './dom/layout.base.mjs';
 
 const app = {
   plumbing,
@@ -12,7 +12,7 @@ window.afb25 = app;
 
 async function init() {
   await Promise.all([
-    renderBasicLayout(),
+    renderBaseLayout(),
   ]);
   console.debug('AFB25 init completed.', app);
 };

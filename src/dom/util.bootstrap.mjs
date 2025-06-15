@@ -1,6 +1,6 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
-import jq80 from 'jq80-pmb';
+import { jq80 } from '../../dist/deps.min.mjs';
 
 function orf(x) { return x || false; }
 function ores(x) { return x || ''; }
@@ -12,22 +12,28 @@ const EX = {
 
 
   makeCard(origOpt) {
-    const opt = orf(origOpt);
+    const opt = {
+      pad: EX.defaultSmallPadding,
+      ...origOpt,
+    };
     const card = jq80('<div class="card">');
-    card.addClass('p-' + (opt.pad || EX.defaultSmallPadding));
+    if (opt.id) { card.attr('id', opt.id); }
+    if (opt.pad) { card.addClass('p-' + opt.pad); }
     const cce = jq80('<div class="card-content">').appendTo(card);
+    card[0].contentContainerElement = cce[0];
     card.addClass('bg-' + (opt.bgColorCls || 'light'));
-    card.contentContainerElement = cce;
     return card;
   },
 
 
   makeFormRow(origOpt) {
-    const opt = orf(origOpt);
+    const opt = { ...origOpt };
+    if (opt.id) { card.attr('id', opt.id); }
     const row = jq80('<div>').addClass(['d-flex', 'flex-row',
       'align-items-center',
-      ores(opt.cls),
+      'align-items-stretch',
     ]);
+    if (!opt.firstRow) { row.addClass('mt-' + EX.defaultSmallPadding); }
     return row;
   },
 

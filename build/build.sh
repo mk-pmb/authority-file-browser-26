@@ -2,14 +2,13 @@
 # -*- coding: utf-8, tab-width: 2 -*-
 
 
-function run_all_tests_cli_init () {
+function build_cli_init () {
   export LANG{,UAGE}=en_US.UTF-8  # make error messages search engine-friendly
   local REPOPATH="$(readlink -m -- "$BASH_SOURCE"/../..)"
   cd -- "$REPOPATH" || return $?
-  ./build/build.sh || return $?
-  elp || return $?
 
-  echo W: "$0: stub!" >&2
+  # [ dist/deps.min.mjs -nt src/deps.bundle.js ] ||
+  nodejs build/deps.pack.js || return $?
 }
 
 
@@ -21,4 +20,4 @@ function run_all_tests_cli_init () {
 
 
 
-run_all_tests_cli_init "$@"; exit $?
+build_cli_init "$@"; exit $?

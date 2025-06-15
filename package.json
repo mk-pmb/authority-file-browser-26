@@ -16,20 +16,29 @@
 
   "private": true, "license": "MIT",
 
-  "scripts": { "test": "elp && bash test/all.sh" },
+  "main": "src/init.mjs",
+  "scripts": {
+    "build": "bash build/build.sh",
+    "test": "bash test/all.sh"
+  },
   "directories": { "test": "test" },
   "eslintConfig": { "extends": "nodejs-pmb" },
 
   "dependencies": {
-    "jq80-pmb": "^0.1.0"
+    "getown": "^1.0.1",
+    "jq80-pmb": "^0.1.1",
+    "unicode-emoji-2503-pmb": "^0.1.0"
   },
   "devDependencies": {
+    "absdir": "^1.0.6",
     "bootstrap": "^5.3.6",
-    "eslint-config-nodejs-pmb": "^0.3.6",
+    "esbrowserify-pmb": "^0.1.4",
+    "eslint-config-nodejs-pmb": "^0.3.8",
     "eslint-plugin-json-light-pmb": "^1.0.7",
     "eslint-plugin-n": "^17.16.2",
-    "eslint-pretty-pmb": "^1.0.7",
-    "jquery": "^3.6.0"
+    "jquery": "^3.7.1",
+    "p-fatal": "^0.1.5",
+    "split-string-or-buffer-once-pmb": "^1.0.2"
   },
 
 

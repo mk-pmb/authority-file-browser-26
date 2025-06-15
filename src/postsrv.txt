@@ -1,0 +1,31 @@
+﻿
+const express = require('express');
+const sortedJson = require('sorted-json');
+const path = require('path');
+
+const app = express();
+app.use(express.json());
+
+// Serve static files from ./wwwpub for GET requests
+app.use(express.static(path.join(__dirname, 'wwwpub')));
+
+app.post('/sortjson', (req, res) => {
+  const data = req.body;
+  if (!data || typeof data !== 'object') {
+    return res.status(400).send({ error: 'Invalid JSON body' });
+  }
+
+  try {
+    const sortedData = sortedJson(data, null, 2);
+    res.send(sortedData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: 'Error sorting JSON' });
+  }
+});
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+});
+
