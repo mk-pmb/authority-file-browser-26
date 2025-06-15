@@ -16,13 +16,20 @@
 
   "private": true, "license": "MIT",
 
-  "scripts": { "test": "elp && nodemjs test/all.mjs" },
+  "scripts": { "test": "elp && bash test/all.sh" },
   "directories": { "test": "test" },
   "eslintConfig": { "extends": "nodejs-pmb" },
 
   "dependencies": {
+    "jq80-pmb": "^0.1.0"
   },
   "devDependencies": {
+    "bootstrap": "^5.3.6",
+    "eslint-config-nodejs-pmb": "^0.3.6",
+    "eslint-plugin-json-light-pmb": "^1.0.7",
+    "eslint-plugin-n": "^17.16.2",
+    "eslint-pretty-pmb": "^1.0.7",
+    "jquery": "^3.6.0"
   },
 
 

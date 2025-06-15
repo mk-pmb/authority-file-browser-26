@@ -1,0 +1,7 @@
+﻿{ "imports": {
+  "jq80-pmb": "../node_modules/jq80-pmb/dist/jq80.latest.min.js",
+
+
+
+  "pkgmeta": "../package.json"
+} }
