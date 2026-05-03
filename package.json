@@ -16,13 +16,24 @@
 
   "private": true, "license": "MIT",
 
-  "scripts": { "test": "elp && bash test/all.sh" },
+  "scripts": {
+    "lint": "elp",
+    "test": "bash test/all.sh",
+    "zzz-dummy": "# Enable comma after previous line, to reduce diff flicker."
+  },
   "directories": { "test": "test" },
-  "eslintConfig": { "extends": "nodejs-pmb" },
+  "eslintConfig": { "extends": "nodejs-pmb",
+    "env": { "browser": true }
+  },
 
   "dependencies": {
   },
   "devDependencies": {
+    "eslint-config-nodejs-pmb": "^0.3.14",
+    "eslint-plugin-json-light-pmb": "^1.0.7",
+    "eslint-plugin-n": "^17.16.2",
+    "eslint-pretty-pmb": "^1.0.7",
+    "p-fatal": "^0.1.7"
   },
 
 
