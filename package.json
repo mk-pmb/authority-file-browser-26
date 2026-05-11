@@ -27,13 +27,14 @@
   },
 
   "dependencies": {
+    "iframe-plugin-base-2606-pmb": "^0.0.1"
   },
   "devDependencies": {
+    "bootstrap": "^4.6.2",
     "eslint-config-nodejs-pmb": "^0.3.14",
     "eslint-plugin-json-light-pmb": "^1.0.7",
     "eslint-plugin-n": "^17.16.2",
-    "eslint-pretty-pmb": "^1.0.7",
-    "p-fatal": "^0.1.7"
+    "eslint-pretty-pmb": "^1.0.7"
   },
 
 
