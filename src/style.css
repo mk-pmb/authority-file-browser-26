@@ -1,0 +1,11 @@
+﻿@charset "UTF-8";
+/* -*- coding: UTF-8, tab-width: 2 -*- */
+
+html, body, .fill {
+  display: block; margin: 0;
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+}
+
+
+a { text-decoration: none; color: inherit; }
+
