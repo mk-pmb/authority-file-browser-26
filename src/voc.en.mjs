@@ -5,6 +5,12 @@ Object.assign(globalThis.voc, {
   empty_field:
     '(No entry)',
 
+  'field_name:title':
+    'Title',
+
+  'field_name:link':
+    'URL',
+
   no_list_items:
     '(Empty list)',
 
