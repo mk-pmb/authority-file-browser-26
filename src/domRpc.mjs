@@ -7,8 +7,15 @@ const {
 
 
 const EX = function makeRpcAdapter() {
-  const iframe = Array.from(win.parent.document.getElementsByTagName(
-    'iframe')).find(ifr => (ifr.contentWindow === win));
+  let iframe = win;
+  (function findParentWindow() {
+    let parDoc;
+    try { parDoc = win.parent.document; } catch { return; }
+    if (parDoc === document) { return; }
+    const allIframes = Array.from(parDoc.getElementsByTagName('iframe'));
+    iframe = allIframes.find(ifr => (ifr.contentWindow === win));
+  }());
+
   const ra = {
     config: {
       requestHandlers: {},
@@ -26,6 +33,7 @@ const EX = function makeRpcAdapter() {
 
   setTimeout(function init() {
     const ii = iframe.domRpcInit;
+    if (!ii) { return setTimeout(init, 100); }
     ra.hostSham = ii.hostSham;
     ra.serveRequest(ii.method, ii.params);
   }, 1);
@@ -37,7 +45,17 @@ const EX = function makeRpcAdapter() {
 
 Object.assign(EX, {
 
-  async serveRequestImpl(cfg, side, method, params) {
+  sanitizeParams(orig) {
+    if (orig === undefined) { return null; }
+    let par = orig;
+    // Resolve potential getters etc.:
+    par = JSON.parse(JSON.stringify(par));
+    return par;
+  },
+
+
+  async serveRequestImpl(cfg, side, method, origParams) {
+    const params = EX.sanitizeParams(origParams);
     const hnd = (getOwn(cfg.requestHandlers, method)
       || cfg.fallbackRequestHandler);
     const trace = 'RPC sham ' + side;
