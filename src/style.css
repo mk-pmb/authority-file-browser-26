@@ -9,3 +9,15 @@ html, body, .fill {
 
 a { text-decoration: none; color: inherit; }
 
+#current-bodies-area .buttons > * {
+  display: inline-block;
+  margin-left: 0.5em;
+  border: 1px solid grey;
+  border-radius: 0.25em;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+}
+
+#current-bodies-area a.weblink:before { content: "\26D3 "; /* chains */ }
+
