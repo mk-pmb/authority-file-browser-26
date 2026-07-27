@@ -25,23 +25,14 @@ Object.assign(app.rpcAdapter.config.requestHandlers, {
     setTimeout(uiCore.init, 1);
   },
 
+
   async enterIdleStandby() {
     setTimeout(uiCore.enterIdleStandby, 1);
   },
 
+
   async startEditing() {
-    const anno = await app.rpcAdapter.sendRequest('readEditorAnno');
-    app.getAnno = () => anno;
-    app.afTagBodies = [];
-    app.otherBodies = [];
-    const flt = Object.entries(app.cfg.bodyFilter);
-    [].concat(anno.body).forEach(function decide(body) {
-      if (!body) { return; }
-      const relevant = flt.every(([k, v]) => body[k] === v);
-      (relevant ? app.afTagBodies : app.otherBodies).push(body);
-    });
     setTimeout(uiCore.startEditing, 1);
-    // Later, write back with: 'updateEditorAnno'
   },
 
 });
