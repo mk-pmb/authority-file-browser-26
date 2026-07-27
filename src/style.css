@@ -6,18 +6,65 @@ html, body, .fill {
   position: absolute; top: 0; left: 0; right: 0; bottom: 0;
 }
 
+body { margin: 1em; }
 
+p { margin: 0; }
 a { text-decoration: none; color: inherit; }
+
+ul { padding-left: 1em; }
+ul#current-bodies-list { padding: 0; list-style-type: none; }
+ul#current-bodies-list > li .title:before { content: "🏷 "; }
+ol + .empty-list-hint, ul + .empty-list-hint { display: none; }
+ol:empty, ul:empty { display: none; }
+ol:empty + .empty-list-hint, ul:empty + .empty-list-hint { display: block; }
+
+li p {
+  vertical-align: center;
+  margin-bottom: 0.5em;
+}
 
 #current-bodies-area .buttons > * {
   display: inline-block;
   margin-left: 0.5em;
-  border: 1px solid grey;
-  border-radius: 0.25em;
   width: 1.5em;
-  height: 1.5em;
+  line-height: 1.5em;
   text-align: center;
+  cursor: pointer;
 }
 
-#current-bodies-area a.weblink:before { content: "\26D3 "; /* chains */ }
+input[type=button],
+input[type=submit],
+input[type=text],
+#current-bodies-area .buttons > * {
+  border: 1px solid silver;
+  border-radius: 4px;
+}
 
+form { display: block; margin: 0; }
+form#editor { margin-top: 1em; }
+form p { display: inline-block; white-space: nowrap; margin-right: 1ex; }
+form label:after { content: ": "; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* scroll */
