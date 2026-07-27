@@ -37,7 +37,17 @@ const EX = function makeRpcAdapter() {
 
 Object.assign(EX, {
 
-  async serveRequestImpl(cfg, side, method, params) {
+  sanitizeParams(orig) {
+    if (orig === undefined) { return null; }
+    let par = orig;
+    // Resolve potential getters etc.:
+    par = JSON.parse(JSON.stringify(par));
+    return par;
+  },
+
+
+  async serveRequestImpl(cfg, side, method, origParams) {
+    const params = EX.sanitizeParams(origParams);
     const hnd = (getOwn(cfg.requestHandlers, method)
       || cfg.fallbackRequestHandler);
     const trace = 'RPC sham ' + side;
