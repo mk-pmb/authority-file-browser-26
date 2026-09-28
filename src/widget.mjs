@@ -7,6 +7,7 @@ import makeRpcAdapter from './domRpc.mjs';
 import './uiBodiesList.btnHnd.mjs';
 import './uiBodiesList.mjs';
 import './uiCore.mjs';
+import './uiSearch.mjs';
 import './voc.en.mjs';
 
 const win = globalThis;

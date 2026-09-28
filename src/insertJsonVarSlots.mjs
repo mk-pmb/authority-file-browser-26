@@ -25,7 +25,7 @@ const EX = function insertJsonVarSlots(orig) {
     limit -= 1;
     let json = JSON.stringify(data);
     again = false;
-    json = json.replace(/\v<(\w+)>/g, ins);
+    json = json.replace(/\\u000b<(\w+)>/g, ins);
     data = JSON.parse(json);
   }
   return data;
