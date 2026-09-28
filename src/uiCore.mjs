@@ -56,6 +56,7 @@ EX.hooks = {
       ],
       '<section id="editor">', [
         ...EX.editorTextField('title', [
+          '=on-keyup=searchKeywordIfChangedSoon',
           '<input type="button">', '=on-click=searchKeyword',
           '=value=' + unicode.leftPointingMagnifyingGlass,
         ]),
@@ -69,6 +70,7 @@ EX.hooks = {
     jq('#title-input').attr('value', 'Beispiel');
     jq('#link-input').attr('value', 'https://de.wikipedia.org/wiki/Beispiel');
     EX.delegateEvent('click');
+    EX.delegateEvent('keyup');
   },
 
 
