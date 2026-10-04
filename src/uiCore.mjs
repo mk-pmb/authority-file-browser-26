@@ -58,6 +58,8 @@ EX.hooks = {
       '<section id="editor">', [
         ...EX.editorTextField('title', [
           '=on-keyup=searchKeywordIfChangedSoon',
+          '=on-keyup-escape=-',
+          '=on-keyup-enter=searchKeyword',
           '<input type="button">', '=on-click=searchKeyword',
           '=value=' + unicode.leftPointingMagnifyingGlass,
         ]),
