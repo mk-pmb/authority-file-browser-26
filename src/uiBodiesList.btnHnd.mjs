@@ -20,6 +20,7 @@ const EX = {
 
   deleteBody(evt) {
     jq(app.editBody(evt)).remove();
+    app.bodiesListWasModified();
     app.saveAnno();
   },
 
