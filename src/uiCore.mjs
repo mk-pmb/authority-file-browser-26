@@ -4,7 +4,7 @@ import hooks from './hooks.mjs';
 import uiBodiesList from './uiBodiesList.mjs';
 
 const win = globalThis;
-const { app } = win;
+const { app, voc } = win;
 const {
   getOwn,
   jq,
@@ -13,11 +13,7 @@ const {
 } = win.lib;
 const { mapValues } = win.lib.lodash;
 
-function voc(s) { return getOwn(voc, s, '❴⛶ ' + s + ' ⁇❵'); };
-
 const ignoreParam = Boolean; // just for signaling intent to linters.
-
-win.voc = voc;
 
 const EX = {
 
