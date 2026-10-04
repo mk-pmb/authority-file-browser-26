@@ -1,20 +1,30 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
 const win = globalThis;
-const { voc } = win;
+const { app, voc } = win;
 const {
   jq80,
   unicode,
 } = win.lib;
 
+const { mapValues } = win.lib.lodash;
+
 
 const EX = {
 
-  appendBody(body) {
-    const li = jq80.skel('#current-bodies-list', '<li>', '<p>', [
-      '<span class="title">', '=on-click=editBody',
+
+  addAnnoModelBody(amb) {
+    const bodyData = mapValues(app.editorBodyFieldsMap, ambKey => amb[ambKey]);
+    EX.addBody(bodyData);
+  },
+
+
+  addBody(bodyData) {
+    const added = jq80.skel('#current-bodies-list', '<li>', '<p>', [
+      '<span class="title">', '$title', '=on-click=editBody',
       '<span class="buttons">', [
         '<a class="weblink" target="_blank">',
+        '$weblink',
         ':' + unicode.link,
 
         '<a class="edit">',
@@ -25,17 +35,18 @@ const EX = {
         '=on-click=deleteBody',
         ':' + unicode.wastebasket,
       ],
-    ]);
-    EX.setBodyData(li, body);
+    ])[0];
+    EX.updateBodyFields(added, bodyData);
   },
 
 
-  setBodyData(li, body) {
-    const title = (body['dc:title'] || voc('empty_field'));
-    const url = (body.source || '');
-    li.find('.title').text(title);
-    li.find('.weblink').attr({ href: url, title: url });
-    return li;
+  updateBodyFields(liMaybeRaw, body) {
+    const li = (liMaybeRaw[0] || liMaybeRaw);
+    li.bodyData = body;
+    const { title, url, ...other } = body;
+    li.sortKey = [title, url, JSON.stringify(other)].join('\n');
+    li.refs.title.text(title || voc('empty_field'));
+    li.refs.weblink.attr({ href: url, title: url });
   },
 
 
