@@ -40,6 +40,10 @@ const EX = {
       if (load) { el.value = s; }
       return s;
     });
+    if (load) {
+      // console.debug('syncEditorFieldsWithBody: loaded:', clean);
+      hooks.run('editorFieldsLoaded', clean);
+    }
     return anyNonEmpty && clean;
   },
 
