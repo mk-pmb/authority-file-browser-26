@@ -6,6 +6,7 @@ import defaultAppConfig from './cfg.default.mjs';
 import hooks from './hooks.mjs';
 import makeRpcAdapter from './domRpc.mjs';
 
+import './cfg.icons.mjs';
 import './uiBodiesList.btnHnd.mjs';
 import './uiBodiesList.mjs';
 import './uiCore.mjs';

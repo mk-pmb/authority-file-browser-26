@@ -14,4 +14,10 @@ Object.assign(globalThis.voc, {
   no_list_items:
     '(Leere Liste)',
 
+  catalogs_list_title:
+    'Suchbare Kataloge:',
+
+  search_load_more:
+    'Weitersuchen',
+
 });
