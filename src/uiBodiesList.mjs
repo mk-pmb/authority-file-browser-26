@@ -1,5 +1,8 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import lintBodies from './lintBodies.mjs';
+
+
 const win = globalThis;
 const { app, voc } = win;
 const {
@@ -61,6 +64,7 @@ const EX = {
   listWasModified() {
     const ul = jq('#current-bodies-list')[0];
     EX.updateRanks(ul);
+    EX.lint(ul);
   },
 
 
@@ -81,6 +85,28 @@ const EX = {
       li = nx;
     }
     li.dataset.rankNext = 'na';
+  },
+
+
+  lint(bodiesList) {
+    lintBodies.prep();
+    const domElems = Array.from(bodiesList.children);
+    domElems.forEach(function check(bodyLi, idx) {
+      const jqBody = jq(bodyLi);
+      jqBody.find('>div.problems').remove();
+      const probsMsgs = lintBodies.each(bodyLi.bodyData, idx);
+      const nProbs = probsMsgs.length;
+      bodyLi.setAttribute('data-n-lint', nProbs);
+      bodyLi.classList.toggle('has-lint', nProbs > 0);
+      if (!nProbs) { return; }
+      const probsUl = jq80.skel(bodyLi, '<div>', '.problems', '<ul>');
+      probsMsgs.forEach(function display(probMsg) {
+        const probLi = document.createElement('li');
+        probLi.innerText = voc(probMsg.voc);
+        probsUl[0].firstChild.appendChild(probLi);
+      });
+    });
+    lintBodies.done();
   },
 
 

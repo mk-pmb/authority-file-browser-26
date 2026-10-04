@@ -18,10 +18,8 @@ ol + .empty-list-hint, ul + .empty-list-hint { display: none; }
 ol:empty, ul:empty { display: none; }
 ol:empty + .empty-list-hint, ul:empty + .empty-list-hint { display: block; }
 
-li p {
-  vertical-align: center;
-  margin-bottom: 0.5em;
-}
+li { margin-bottom: 0.5em; }
+li > p:first-child > * { vertical-align: middle; }
 
 #current-bodies-area .buttons > * {
   display: inline-block;
