@@ -1,6 +1,5 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
-import hooks from './hooks.mjs';
 import insertJsonVarSlots from './insertJsonVarSlots.mjs';
 import soonAfterEventFlood from './soonAfterEventFlood.mjs';
 

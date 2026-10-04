@@ -8,7 +8,7 @@ Object.assign(globalThis.voc, {
   'field_name:title':
     'Title',
 
-  'field_name:link':
+  'field_name:url':
     'URL',
 
   no_list_items:

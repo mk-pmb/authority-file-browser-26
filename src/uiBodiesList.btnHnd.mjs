@@ -13,27 +13,25 @@ const {
 const EX = {
 
   editBody(evt) {
-    const li = jq(evt.currentTarget.closest('li'));
-    jq('#title-input')[0].value = li.find('.title').text();
-    jq('#link-input')[0].value = li.find('.weblink').attr('title');
-    return li;
+    const li = evt.currentTarget.closest('li');
+    const body = li?.bodyData;
+    if (!body) { return; }
+    app.setEditorFieldsFromBody(body);
+    return li; // for use in app.deleteBody
   },
 
 
   deleteBody(evt) {
-    app.editBody(evt).remove();
+    jq(app.editBody(evt)).remove();
     app.saveAnno();
   },
 
 
   saveBody() {
-    const title = jq('#title-input')[0].value;
-    const url = jq('#link-input')[0].value;
-    const hasAny = (title || url);
-    if (!hasAny) { return; }
-    const body = { ...app.cfg.bodyFilter, 'dc:title': title, source: url };
-    uiBodiesList.appendBody(body);
-    jq('#root')[0].reset();
+    const body = app.getEditorFieldsAsBody();
+    if (!body) { return; }
+    uiBodiesList.addBody(body);
+    app.resetEditorFields();
     app.saveAnno();
   },
 
