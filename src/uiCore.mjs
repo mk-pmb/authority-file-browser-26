@@ -2,11 +2,11 @@
 
 import hooks from './hooks.mjs';
 import uiBodiesList from './uiBodiesList.mjs';
+import uiDelegateEvent from './uiDelegateEvent.mjs';
 
 const win = globalThis;
 const { app, voc } = win;
 const {
-  getOwn,
   jq,
   jq80,
   unicode,
@@ -16,19 +16,6 @@ const { mapValues } = win.lib.lodash;
 const ignoreParam = Boolean; // just for signaling intent to linters.
 
 const EX = {
-
-  delegateEvent(evName) {
-    // jQuery event names are case-insensitive.
-    jq('body').on(evName, '[on-' + evName + ']', function evProxy(evt) {
-      if (evt.key && evt.isComposing) { return; }
-      const hndName = evt.currentTarget.getAttribute('on-' + evName);
-      if (!hndName) { return; }
-      const hndFunc = getOwn(app, hndName);
-      if (hndFunc) { return hndFunc(evt); }
-      console.error('No such app method:', { evName, hndName }, evt.currentTarget);
-    });
-  },
-
 
   editorTextField(key, buttons) {
     return ['<p>', [
@@ -81,8 +68,8 @@ EX.hooks = {
     );
     form[0].action = 'invalid://nope/';
     form[0].onsubmit = () => false;
-    EX.delegateEvent('click');
-    EX.delegateEvent('keyup');
+    uiDelegateEvent('click');
+    uiDelegateEvent('keyup');
   },
 
 
