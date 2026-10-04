@@ -3,6 +3,7 @@
 const win = globalThis;
 const { app, voc } = win;
 const {
+  jq,
   jq80,
   unicode,
 } = win.lib;
@@ -37,6 +38,13 @@ const EX = {
       ],
     ])[0];
     EX.updateBodyFields(added, bodyData);
+    const ul = added.parentNode;
+    const cmp = app.lenientNaturalSortCollator;
+    const before = Array.from(ul.children).find(function shouldRankAfter(li) {
+      return (li !== added) && (cmp.compare(added.sortKey, li.sortKey) < 0);
+    });
+    if (before) { ul.insertBefore(added, before); }
+    EX.listWasModified();
   },
 
 
@@ -47,6 +55,32 @@ const EX = {
     li.sortKey = [title, url, JSON.stringify(other)].join('\n');
     li.refs.title.text(title || voc('empty_field'));
     li.refs.weblink.attr({ href: url, title: url });
+  },
+
+
+  listWasModified() {
+    const ul = jq('#current-bodies-list')[0];
+    EX.updateRanks(ul);
+  },
+
+
+  updateRanks(ul) {
+    let li = ul.firstElementChild;
+    if (!li) { return; }
+    li.dataset.rankPrev = 'na';
+    const natSort = app.lenientNaturalSortCollator;
+    while (ul) {
+      const nx = li.nextElementSibling;
+      if (!nx) { break; }
+      const s = natSort.compare(li.sortKey, nx.sortKey);
+      let w = 'eq';
+      if (s < 0) { w = 'ok'; }
+      if (s > 0) { w = 'rv'; } // reverse
+      li.dataset.rankNext = w;
+      nx.dataset.rankPrev = w;
+      li = nx;
+    }
+    li.dataset.rankNext = 'na';
   },
 
 
