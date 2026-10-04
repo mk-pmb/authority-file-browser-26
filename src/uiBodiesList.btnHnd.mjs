@@ -23,6 +23,7 @@ const EX = {
 
   deleteBody(evt) {
     jq(app.editBody(evt)).remove();
+    uiBodiesList.listWasModified();
     app.saveAnno();
   },
 

@@ -18,6 +18,15 @@ app.otherBodies = [];
 app.defaultMinimumBodyFilter = { type: 'SpecificResource' };
 
 
+app.lenientNaturalSortCollator = new Intl.Collator(undefined, {
+  caseFirst: false,
+  ignorePunctuation: true,
+  numeric: true,
+  sensitivity: 'base',
+  usage: 'sort',
+});
+
+
 app.rpcAdapter = makeRpcAdapter();
 Object.assign(app.rpcAdapter.config.requestHandlers, {
 
