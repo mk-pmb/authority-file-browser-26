@@ -71,11 +71,14 @@ EX.hooks = {
         '<input type="button">', '=on-click=saveBody',
         '=value=' + unicode.floppyDisk,
       ],
+      '<section id="catalogs">',
+      '<section id="search-results">',
     );
     form[0].action = 'invalid://nope/';
     form[0].onsubmit = () => false;
     uiDelegateEvent('click');
     uiDelegateEvent('keyup');
+    // hooks.run('uiCoreDomReady');
   },
 
 

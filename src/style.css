@@ -41,13 +41,36 @@ input[type=text],
 form { display: block; margin: 0; }
 form#editor { margin-top: 1em; }
 form p { display: inline-block; white-space: nowrap; margin-right: 1ex; }
-form label:after { content: ": "; }
+#editor label:after { content: ": "; }
+
+#catalogs {
+  --indent: 2em;
+  padding-left: var(--indent); text-indent: calc(-1 * var(--indent));
+  margin: 1em 0;
+}
+
+#catalogs > p {
+  display: inline-block;
+  text-indent: 0;
+  border: 1px solid silver; border-radius: 5px;
+  padding: 0.2em 0.5em;
+  margin-bottom: 0.2em;
+}
+#catalogs > p:first-child { padding: 0; border-width: 0; }
+#catalogs > p.open { background-color: lemonchiffon; }
+#catalogs > p.fubar { border-color: firebrick; }
+#catalogs > p span + span { margin-left: 1ex; }
+#catalogs > p span.status:before { content: "\279C  "; }
 
 
 
-
-
-
+/* For debugging positions; the T from "Title" in label[for="title-input"]
+  has a stray pixel extending to the left in my Firefox.
+ */
+xform { background-color: mistyrose; }
+xsection { background-color: gainsboro; }
+section > p:first-child { background-color: lightgreen; }
+label[for="title-input"] { background-color: lightsteelblue; }
 
 
 
