@@ -1,5 +1,7 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import './earlyWindowAdditions.mjs';
+
 import defaultAppConfig from './cfg.default.mjs';
 import hooks from './hooks.mjs';
 import makeRpcAdapter from './domRpc.mjs';
