@@ -41,7 +41,7 @@ const EX = {
     });
     if (load) {
       // console.debug('syncEditorFieldsWithBody: loaded:', clean);
-      hooks.run('editorFieldsLoaded', clean);
+      hooks.run('editorFieldsLoaded', 1, clean);
     }
     return anyNonEmpty && clean;
   },
@@ -77,7 +77,7 @@ EX.hooks = {
     form[0].onsubmit = () => false;
     uiDelegateEvent('click');
     uiDelegateEvent('keyup');
-    // hooks.run('uiCoreDomReady');
+    hooks.run('uiCoreDomReady', 0);
   },
 
 

@@ -39,17 +39,17 @@ Object.assign(app.rpcAdapter.config.requestHandlers, {
     app.cfg = cfg;
     cfg.displayLang = param.displayLang;
     cfg.bodyFilter = { ...app.defaultMinimumBodyFilter, ...cfg.bodyFilter };
-    hooks.run('init', param);
+    hooks.run('init', 1, param);
   },
 
 
   async enterIdleStandby(param) {
-    hooks.run('enterIdleStandby', param);
+    hooks.run('enterIdleStandby', 1, param);
   },
 
 
   async startEditing(param) {
-    hooks.run('startEditing', param);
+    hooks.run('startEditing', 1, param);
   },
 
 });
