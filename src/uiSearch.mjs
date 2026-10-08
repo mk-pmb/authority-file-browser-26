@@ -64,6 +64,13 @@ const EX = {
       const pane = jq80.skel(null, '<div>', '.pane', [
         '<p>', '.status',
         '<ol>', '.results-list',
+        /*
+        '<p>', '.load-more', [
+          '<input>', '=type=button',
+          '=value=' + voc('search_load_more'),
+          '=on-click=searchRequestMoreResults',
+        ],
+        */
       ]);
       Object.assign(catSelBtn, {
         getLatestError: alwaysFalse,
