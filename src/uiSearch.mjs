@@ -110,7 +110,6 @@ Object.assign(app, {
       catSelBtn.getLatestError = alwaysFalse;
       const ds = catSelBtn.dataset;
       delete ds.error;
-      let err = false;
 
       const dynParam = {
         kw,
@@ -122,7 +121,14 @@ Object.assign(app, {
         data: insertJsonVarSlots({ ...catSpec, ...dynParam }).body,
         dataType: 'json',
       };
-      console.debug('Search request for', dynParam, req);
+      const eventCtx = {
+        catSelBtn,
+        dynParam,
+        err: false,
+        pane,
+        req,
+      };
+      hooks.run('catalogSearchBefore', 0, eventCtx);
       try {
         const rsp = await jq80.ajaxPr(req);
         console.info('Search success:', dynParam, ...rsp);
@@ -130,15 +136,20 @@ Object.assign(app, {
         jqCatSelBtn.find('.n-results').text(rsp.total);
         pane.find('.results-list').html('');
       } catch (caught) {
-        err = caught;
-        console.error('Error while searching', dynParam, { err });
-        catSelBtn.getLatestError = () => err;
-        const msg = (err);
+        eventCtx.err = caught;
+        console.error('Error while searching', eventCtx);
+        catSelBtn.getLatestError = () => caught;
+        const msg = String(caught);
         ds.error = msg;
         pane.find('.status').text(voc('icon_fubar') + ' ' + msg);
         jqCatSelBtn.find('.n-results').text(unicode.stopSign);
       }
-      catSelBtn.setCls('fubar', !!err);
+      catSelBtn.setCls('fubar', !!eventCtx.err);
+      hooks.run((eventCtx.err
+        ? 'catalogSearchFailed'
+        : 'catalogSearchSuccess'
+      ), 0, eventCtx);
+      hooks.run('catalogSearchAfter', 0, eventCtx);
     });
   },
 
@@ -156,9 +167,14 @@ Object.assign(app, {
     if (!catSelBtn) { return; }
     catSelBtn.classList.add('open');
     const pane = catSelBtn.getResultsPane();
-    if (!pane) { return; }
+    const eventCtx = { catId };
+    if (!pane) {
+      hooks.run('openCatalogResultsNoPane', 0, eventCtx);
+      return;
+    }
     jqResults.append(pane);
     EX.currentlyOpenCatalogId = catId;
+    hooks.run('openCatalogResultsAfter', 0, eventCtx);
   },
 
 
