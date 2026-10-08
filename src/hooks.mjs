@@ -20,15 +20,20 @@ const EX = {
     if (!had) { allHooks.set(evName, list); }
   },
 
-  run(evName, ...args) {
+  run(evName, minExpectedAudience, ...args) {
     const list = allHooks.get(evName);
-    if (!list) {
-      console.warn('No listeners for hook', evName);
-      return 0;
+    if (!Number.isInteger(minExpectedAudience)) {
+      throw new Error('hooks.run requires argument minExpectedAudience');
     }
+    const size = (+(list || false).size || 0);
+    if (size < minExpectedAudience) {
+      console.warn('Unexpectedly few listeners for hook', evName,
+        size, '<', minExpectedAudience);
+    }
+    if (!size) { return 0; }
     // console.debug('Running hooks for', evName, 'n=', list.size);
     list.forEach(func => setTimeout(func, 1, ...args));
-    return list.size;
+    return size;
   },
 
 };
