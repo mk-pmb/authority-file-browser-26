@@ -101,6 +101,7 @@ EX.hooks = {
       if (relevant) { return app.addAnnoModelBody(annoModelBody); }
       return app.otherBodies.push(annoModelBody);
     });
+    hooks.run('editorReadyForEditing', 0);
   },
 
 
