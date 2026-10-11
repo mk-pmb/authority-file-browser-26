@@ -16,7 +16,11 @@ const EX = {
 
     const had = allHooks.get(evName);
     const list = (had || new Set());
-    list.add(func);
+    if (Array.isArray(func)) {
+      func.forEach(f => list.add(f));
+    } else {
+      list.add(func);
+    }
     if (!had) { allHooks.set(evName, list); }
   },
 
