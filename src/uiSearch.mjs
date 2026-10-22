@@ -92,9 +92,7 @@ Object.assign(app, {
       try {
         const rsp = await jq80.ajaxPr(req);
         console.info('Search success:', dynParam, ...rsp);
-        pane.find('.status').text('');
-        jqCatSelBtn.find('.n-results').text(rsp.total);
-        pane.find('.results-list').html('');
+        app.rerenderSearchResultsForCatSelBtn(catId, result);
       } catch (caught) {
         eventCtx.err = caught;
         console.error('Error while searching', eventCtx);

@@ -8,6 +8,7 @@ import makeRpcAdapter from './domRpc.mjs';
 
 import './cfg.icons.mjs';
 import './renderCatalogs.mjs';
+import './renderSearchResults.mjs';
 import './uiBodiesList.btnHnd.mjs';
 import './uiBodiesList.mjs';
 import './uiCore.mjs';
