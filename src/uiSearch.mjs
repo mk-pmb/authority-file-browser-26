@@ -75,11 +75,15 @@ Object.assign(app, {
         kw,
         id: catId,
       };
+      const bodyData = insertJsonVarSlots({ ...catSpec, ...dynParam }).body;
       const req = {
         url: catSpec.url,
-        type: 'POST',
-        data: insertJsonVarSlots({ ...catSpec, ...dynParam }).body,
-        dataType: 'json',
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json;q=0.9, */*',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(bodyData).toString(),
       };
       const eventCtx = {
         catSelBtn,
@@ -87,11 +91,17 @@ Object.assign(app, {
         err: false,
         pane,
         req,
+        bodyData,
       };
       hooks.run('catalogSearchBefore', 0, eventCtx);
       try {
-        const rsp = await jq80.ajaxPr(req);
-        console.info('Search success:', dynParam, ...rsp);
+        const rsp = await win.fetch(req.url, req);
+        if (!rsp.ok) {
+          const err = new Error('HTTP/' + rsp.status + ' ' + rsp.statusText);
+          throw err;
+        }
+        const result = await rsp.json();
+        console.info('Search success:', dynParam, ...result);
         app.rerenderSearchResultsForCatSelBtn(catId, result);
       } catch (caught) {
         eventCtx.err = caught;
