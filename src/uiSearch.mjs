@@ -9,7 +9,6 @@ const win = globalThis;
 const { app, voc } = win;
 const {
   jq,
-  jq80,
   unicode,
 } = win.lib;
 
@@ -17,14 +16,6 @@ const { mapValues } = win.lib.lodash;
 
 
 function alwaysFalse() { return false; }
-
-
-function catSelBtnSetCls(cls, on) {
-  const btn = this;
-  const bon = Boolean(on);
-  btn.classList.toggle(cls, bon);
-  btn.getResultsPane()[0].classList.toggle(cls, bon);
-}
 
 
 const EX = {
@@ -45,38 +36,6 @@ const EX = {
 
   currentlyOpenCatalogId: false,
 
-  rerenderCatalogs() {
-    const jqCats = jq('#catalogs').html('');
-    jq('<p>').text(voc('catalogs_list_title')).appendTo(jqCats);
-    mapValues(app.cfg.catalogs, function addCat(catSpec, catId) {
-      const catSelBtn = jq80.skel(jqCats, '<p>', [
-        '#searchCatBtn:' + catId,
-        '=data-cat-id=' + catId,
-        '=on-click=openCatalogResultsByButton',
-        '<label>', [
-          '<span>', '.icon', ':' + catSpec.uniIcon,
-          '<span>', '.title', ':' + catSpec.title,
-          '<span>', '.status', [
-            '<span>', '.n-results', ':0',
-          ],
-        ],
-      ])[0];
-      const pane = jq80.skel(null, '<div>', '.pane', [
-        '<p>', '.status',
-        '<ol>', '.results-list',
-      ]);
-      Object.assign(catSelBtn, {
-        getLatestError: alwaysFalse,
-        getResultsPane() { return pane; },
-        setCls: catSelBtnSetCls,
-      });
-    });
-
-    app.openCatalogResultsById(app.cfg.initiallyOpenCatalogId);
-    jqCats.append(Array.from({ length: 8 }).map(
-      (x, i) => '<p>dummy #' + (x || i)));
-  },
-
 
 };
 
@@ -88,6 +47,7 @@ Object.assign(app, {
   searchKeywordIfChanged() {
     app.searchKeyword('ifChanged');
   },
+
 
   async searchKeyword(opt) {
     const kw = EX.getSearchKeywordClean();
@@ -101,7 +61,7 @@ Object.assign(app, {
     const attempt = { kw };
     EX.latestSearchAttempt = attempt;
     mapValues(app.cfg.catalogs, async function oneSrv(catSpec, catId) {
-      const catSelBtn = document.getElementById('searchCatBtn:' + catId);
+      const catSelBtn = app.getCatSelBtnByCatId(catId);
       const jqCatSelBtn = jq(catSelBtn);
       const pane = catSelBtn.getResultsPane();
       pane.find('.status').html(unicode.hourglassWithFlowingSand);
@@ -188,12 +148,7 @@ EX.hooks = {
     EX.previousUnmodifiedKeyword = cleanBody.title;
   },
 
-  // uiCoreDomReady: EX.rerenderCatalogs,
-  startEditing: EX.rerenderCatalogs,
-
 };
-
-
 hooks.add(EX.hooks);
 
 
