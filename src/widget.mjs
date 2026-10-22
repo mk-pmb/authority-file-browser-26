@@ -6,6 +6,7 @@ import defaultAppConfig from './cfg.default.mjs';
 import hooks from './hooks.mjs';
 import makeRpcAdapter from './domRpc.mjs';
 
+import './catSelBtnApi.mjs';
 import './cfg.icons.mjs';
 import './renderCatalogs.mjs';
 import './renderSearchResults.mjs';

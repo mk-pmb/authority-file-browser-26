@@ -62,6 +62,11 @@ form p { display: inline-block; white-space: nowrap; margin-right: 1ex; }
 #catalogs > p span + span { margin-left: 1ex; }
 #catalogs > p span.status:before { content: "\279C  "; }
 
+ol.results-list > li dt { display: inline; }
+ol.results-list > li dd { display: inline; margin: 0; color: dimgrey; }
+ol.results-list > li dd:before { content: "·"; margin: 0 0.5em; }
+ol.results-list > li[data-descr=""] dd { display: none; }
+
 
 
 

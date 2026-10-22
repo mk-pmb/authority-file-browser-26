@@ -17,26 +17,10 @@ function alwaysFalse() { return false; }
 
 
 const EX = {
-
-  catSelBtnSetCls(cls, on) {
-    const btn = this;
-    const bon = Boolean(on);
-    btn.classList.toggle(cls, bon);
-    btn.getResultsPane()[0].classList.toggle(cls, bon);
-  },
-
-
 };
 
 
 Object.assign(app, {
-
-  getCatSelBtnByCatId(catId) {
-    const btn = document.getElementById('searchCatBtn:' + catId);
-    if (!btn) { throw new Error('No selection button for catalog ' + catId); }
-    return btn;
-  },
-
 
   async rerenderCatalogsNow() {
     const jqCats = jq('#catalogs').html('');
@@ -61,11 +45,10 @@ Object.assign(app, {
       Object.assign(catSelBtn, {
         getLatestError: alwaysFalse,
         getResultsPane() { return pane; },
-        setCls: EX.catSelBtnSetCls,
       });
     });
 
-    app.openCatalogResultsById(app.cfg.initiallyOpenCatalogId);
+    app.openCatalogResultsById(app.cfg.initiallyOpenCatalogId || 0);
     jqCats.append(Array.from({ length: 8 }).map(
       (x, i) => '<p>dummy #' + (x || i)));
   },
