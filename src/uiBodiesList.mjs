@@ -1,5 +1,8 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import uiWebLink from './uiWebLink.mjs';
+
+
 const win = globalThis;
 const { app, voc } = win;
 const {
@@ -19,7 +22,7 @@ const EX = {
     const { title, url, ...other } = body;
     li.sortKey = [title, url, JSON.stringify(other)].join('\n');
     li.refs.title.text(title || voc('empty_field'));
-    li.refs.weblink.attr({ href: url, title: url });
+    li.refs.weblink.attr({ href: uiWebLink.fixupHref(url), title: url });
   },
 
 
@@ -58,16 +61,12 @@ Object.assign(app, {
     const added = jq80.skel('#current-bodies-list', '<li>', '<p>', [
       '<span class="title">', '$title', '=on-click=editBody',
       '<span class="buttons">', [
-        '<a class="weblink" target="_blank">',
-        '$weblink',
-        ':' + unicode.link,
+        ...uiWebLink(), '$weblink', ':' + unicode.link,
 
-        '<a class="edit">',
-        '=on-click=editBody',
+        '<a class="edit">', '=on-click=editBody',
         ':' + unicode.memo,
 
-        '<a class="delete">',
-        '=on-click=deleteBody',
+        '<a class="delete">', '=on-click=deleteBody',
         ':' + unicode.wastebasket,
       ],
     ])[0];
