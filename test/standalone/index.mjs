@@ -16,7 +16,18 @@ const EX = {
   testName: /^(?:[\w\-]+(?:[\.\/]|$))+$/.exec(qry.t || '')?.[0],
 
   async start() {
-    try { await imp0rt('../../cfg.@local/index.mjs'); } catch { ; }
+    try {
+      await imp0rt('../../cfg.@local/index.mjs');
+    } catch (cfgErr) {
+      const msg = (cfgErr?.message || '');
+      const noLocalCfg = (msg.endsWith('/cfg.@local/index.mjs')
+        && msg.startsWith('error loading dynamically imported module: '));
+      if (!noLocalCfg) {
+        window.errLocalCfg = cfgErr;
+        console.error(cfgErr);
+        return;
+      }
+    }
     if (!EX.testName) { return console.error('Empty testName (?t=…)'); }
     const testImpl = (await import('./' + EX.testName + '.mjs')).default;
     if (testImpl.addHooks) { hooks.add(testImpl.addHooks); }
