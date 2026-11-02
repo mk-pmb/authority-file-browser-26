@@ -1,4 +1,16 @@
 // -*- coding: utf-8, tab-width: 2 -*-
+/*
+
+What this hooks lib does different from hookrunner25a-pmb:
+
+* Calling hooks here is fire-and-forget. It always schedules the subscribers
+  for the future, and thus will never block or abort the current block that
+  fired the hook, even if a subscriber happens to be a regular (not async)
+  function that immediately throws.
+* Hook subscribers cannot interfere with each other.
+* The `minExpectedAudience` guard helps prevent hook rename accidents.
+
+*/
 
 const allHooks = new Map();
 
