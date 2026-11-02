@@ -1,12 +1,13 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import catSelBtnApi from './catSelBtnApi.mjs';
 import hooks from './hooks.mjs';
 import insertJsonVarSlots from './insertJsonVarSlots.mjs';
 import soonAfterEventFlood from './soonAfterEventFlood.mjs';
 
 
 const win = globalThis;
-const { app, voc } = win;
+const { app } = win;
 const {
   jq,
   unicode,
@@ -27,6 +28,10 @@ const EX = {
   autoSearchMinimumLength: 3,
   latestSearchAttempt: false,
 
+  searchAttemptApi: {
+    isLatest() { return (this === EX.latestSearchAttempt); },
+  },
+
   getSearchKeywordClean() {
     let kw = jq('#title-input')[0].value;
     kw = kw.trim();
@@ -34,7 +39,8 @@ const EX = {
   },
 
 
-  currentlyOpenCatalogId: false,
+  currentlyOpenCatalogId: false, // see also: cfg.initiallyOpenCatalogId
+
 
 
 };
@@ -58,11 +64,11 @@ Object.assign(app, {
       if (kw.length < EX.autoSearchMinimumLength) { return; }
     }
     EX.previouslySearchedKeyword = kw;
-    const attempt = { kw };
+    const attempt = { now: Date.now(), ...EX.searchAttemptApi };
     EX.latestSearchAttempt = attempt;
     mapValues(app.cfg.catalogs, async function oneSrv(catSpec, catId) {
       const catSelBtn = app.getCatSelBtnByCatId(catId);
-      const jqCatSelBtn = jq(catSelBtn);
+      // const jqCatSelBtn = jq(catSelBtn);
       const pane = catSelBtn.getResultsPane();
       pane.find('.status').html(unicode.hourglassWithFlowingSand);
       pane.find('.results-list').html('');
@@ -86,13 +92,18 @@ Object.assign(app, {
         body: new URLSearchParams(bodyData).toString(),
       };
       const eventCtx = {
+        attempt,
+        bodyData,
+        catId,
         catSelBtn,
         dynParam,
         err: false,
         pane,
+        replyList: false,
+        replyMeta: false,
         req,
-        bodyData,
       };
+      await catSelBtnApi.setResultsCount(eventCtx);
       hooks.run('catalogSearchBefore', 0, eventCtx);
       try {
         const rsp = await win.fetch(req.url, req);
@@ -100,19 +111,21 @@ Object.assign(app, {
           const err = new Error('HTTP/' + rsp.status + ' ' + rsp.statusText);
           throw err;
         }
-        const result = await rsp.json();
-        console.info('Search success:', dynParam, ...result);
-        app.rerenderSearchResultsForCatSelBtn(catId, result);
+        const [meta, ...list] = await rsp.json();
+        eventCtx.replyMeta = meta;
+        eventCtx.replyList = list;
+        console.info('Search success:', eventCtx);
+        if (!attempt.isLatest()) { return; }
       } catch (caught) {
         eventCtx.err = caught;
         console.error('Error while searching', eventCtx);
+        if (!attempt.isLatest()) { return; }
         catSelBtn.getLatestError = () => caught;
         const msg = String(caught);
         ds.error = msg;
-        pane.find('.status').text(voc('icon_fatal_error') + ' ' + msg);
-        jqCatSelBtn.find('.n-results').text(unicode.stopSign);
       }
-      catSelBtn.setCls('errorr', !!eventCtx.err);
+      await catSelBtnApi.setResultsCount(eventCtx);
+      await app.rerenderSearchResultsForCatSelBtn(eventCtx);
       hooks.run((eventCtx.err
         ? 'catalogSearchFailed'
         : 'catalogSearchSuccess'
@@ -128,6 +141,10 @@ Object.assign(app, {
 
 
   openCatalogResultsById(catId) {
+    if (Number.isInteger(catId)) {
+      const key = String(Object.keys(app.cfg.catalogs)[catId] || '');
+      return app.openCatalogResultsById(key);
+    }
     jq('#catalogs > p').removeClass('open');
     const jqResults = jq('#search-results').html('');
     const catSelBtn = document.getElementById('searchCatBtn:' + catId);

@@ -3,8 +3,10 @@
 const dfCfg = {
 
   editorFieldDefaults: {
-    title: 'Beispiel',
-    url: 'https://de.wikipedia.org/wiki/Beispiel',
+    // title: 'Beispiel',
+    // url: 'https://de.wikipedia.org/wiki/Beispiel',
+    title: 'Vitamin',
+    url: '',
   },
 
   catalogs: {},
