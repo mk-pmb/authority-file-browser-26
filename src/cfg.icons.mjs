@@ -2,6 +2,7 @@
 
 Object.assign(globalThis.voc, {
 
+  icon_add_from_catalog: '🛒️',
   icon_fatal_error: '🛑🔥🛑',
 
 });
