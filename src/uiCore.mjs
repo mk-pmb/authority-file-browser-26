@@ -54,9 +54,13 @@ EX.hooks = {
 
   init() {
     const form = jq80.skel(jq('body').html(''), '<form id="root" method=get>',
-      '<section id="current-bodies-area">', [
+      '<section id="current-bodies-area" class="inbl">', [
         '<ul id="current-bodies-list">',
         '<p class="empty-list-hint">', ':' + voc('no_list_items'),
+      ],
+      '<section id="problems-area" class="inbl">', [
+        '<p class="title">', ':' + voc('problems_list_headline'),
+        '<ul id="problems-list">',
       ],
       '<section id="editor">', [
         ...EX.editorTextField('title', [
@@ -153,6 +157,12 @@ Object.assign(app, {
       allBodies.push(annoModelBody);
     });
     await app.rpcAdapter.sendRequest('updateEditorAnno', { body: allBodies });
+  },
+
+
+  showTitleAsMsgBox(evt) {
+    const { title } = evt.currentTarget;
+    if (title) { window.alert(title); } // eslint-disable-line no-alert
   },
 
 
