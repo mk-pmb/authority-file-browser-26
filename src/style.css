@@ -17,9 +17,16 @@ p { margin: 0; }
 a { text-decoration: none; color: inherit; }
 
 .unfloat { clear: both; }
+section.inbl { display: inline-block; vertical-align: top; }
+section.inbl+section.inbl { margin-left: 2em; }
 
 ul { padding-left: 1em; }
-ul#current-bodies-list { padding: 0; list-style-type: none; }
+ul#current-bodies-list { padding: 0; list-style-type: none; margin-top: 0; }
+ul#current-bodies-list > li abbr.problems {
+  color: red; margin-right: 0.5em; text-decoration: none;
+}
+ul#current-bodies-list > li .problems[title=""] { display: none; }
+ul#current-bodies-list > li .problems:before { content: "⚠ "; }
 ul#current-bodies-list > li .title:before { content: "🏷 "; }
 ol + .empty-list-hint, ul + .empty-list-hint { display: none; }
 ol:empty, ul:empty { display: none; }
@@ -157,6 +164,10 @@ ol.results-list > li[data-descr=""] dd { display: none; }
 #search-results .preview .weblink-box .weblink { margin-left: 0.5em; }
 #search-results .preview .weblink { color: blue; }
 
+#problems-list li :first-child,
+#problems-area[data-n-problems="0"] { display: none; }
+#problems-area .title { color: red; }
+#problems-list { margin-top: 0.25em; margin-left: 2em; margin-bottom: 2em; }
 
 
 

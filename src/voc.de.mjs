@@ -2,8 +2,17 @@
 
 Object.assign(globalThis.voc, {
 
-  empty_field:
-    '(Keine Angabe)',
+  empty_value:
+    '(Kein Wert)',
+
+  problems_list_headline:
+    'Probleme gefunden:',
+
+  err_dupeval_field:
+    'Feldwert wird mehrfach verwendet:',
+
+  err_missing_field:
+    'Pflichtfeld fehlt:',
 
   'field_name:title':
     'Titel',

@@ -1,5 +1,6 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
+import lintBodies from './lintBodies.mjs';
 import uiWebLink from './uiWebLink.mjs';
 
 
@@ -21,7 +22,7 @@ const EX = {
     li.bodyData = body;
     const { title, url, ...other } = body;
     li.sortKey = [title, url, JSON.stringify(other)].join('\n');
-    li.refs.title.text(title || voc('empty_field'));
+    li.refs.title.text(title || voc('empty_value'));
     li.refs.weblink.attr({ href: uiWebLink.fixupHref(url), title: url });
   },
 
@@ -59,6 +60,9 @@ Object.assign(app, {
 
   addBody(bodyData) {
     const added = jq80.skel('#current-bodies-list', '<li>', '<p>', [
+      '<abbr class="problems">', '$problems', '=title=', [
+        '=on-click=showTitleAsMsgBox',
+      ],
       '<span class="title">', '$title', '=on-click=editBody',
       '<span class="buttons">', [
         ...uiWebLink(), '$weblink', ':' + unicode.link,
@@ -82,6 +86,7 @@ Object.assign(app, {
 
 
   bodiesListWasModified() {
+    lintBodies();
     EX.updateRanks();
   },
 
